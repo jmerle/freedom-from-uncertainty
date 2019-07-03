@@ -21,7 +21,7 @@ application {
     mainClassName = "${project.group}.MainKt"
 }
 
-var runArgs = listOf("src/main/resources/train.csv")
+var runArgs = listOf("data/train.csv")
 
 tasks {
     withType<Wrapper> {
@@ -45,6 +45,6 @@ task("runProduction") {
     finalizedBy("run")
 
     doLast {
-        runArgs = listOf("src/main/resources/test.csv", "submission/result.csv")
+        runArgs = listOf("data/test.csv", "submission/result.csv")
     }
 }

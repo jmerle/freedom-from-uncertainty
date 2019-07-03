@@ -16,4 +16,4 @@ As far as development tooling is important, the source code was written in Intel
 ## Relevant sources
 The source code can be found in [src/main/kotlin/com/jaspervanmerle/freedomfromuncertainty](./src/main/kotlin/com/jaspervanmerle/freedomfromuncertainty). The price of a record is predicted in the [`ProductionStrategy`](./src/main/kotlin/com/jaspervanmerle/freedomfromuncertainty/strategy/ProductionStrategy.kt) class.
 
-The solution can be ran using `./gradlew runProduction` when Java 8 is installed. The program will read the test dataset from [src/main/resources/test.csv](./src/main/resources/test.csv) and write the results to [submission/result.csv](./submission/result.csv).
+The solution can be ran using `./gradlew runProduction` when Java 8 is installed. The program will read the test dataset from [data/test.csv](./data/test.csv) and write the results to [submission/result.csv](./submission/result.csv).
