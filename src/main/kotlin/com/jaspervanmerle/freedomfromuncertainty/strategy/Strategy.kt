@@ -13,6 +13,14 @@ class Strategy(private val records: List<Record>) {
     }
 
     private fun predictPrice(record: Record, previousRecords: List<Record>): Double {
+        if (record.tripleExponentialMovingAverage != null) {
+            return record.tripleExponentialMovingAverage
+        }
+
+        if (record.doubleExponentialMovingAverage != null) {
+            return record.doubleExponentialMovingAverage
+        }
+
         return record.exponentialMovingAverage
     }
 }

@@ -4,6 +4,7 @@ import com.jaspervanmerle.freedomfromuncertainty.io.log
 import com.jaspervanmerle.freedomfromuncertainty.model.Record
 import com.jaspervanmerle.freedomfromuncertainty.strategy.Strategy
 import java.io.File
+import java.lang.Double.isNaN
 import java.text.SimpleDateFormat
 
 abstract class Runner(private val inputFile: File) {
@@ -13,7 +14,7 @@ abstract class Runner(private val inputFile: File) {
         val records = parseRecords(inputFile)
 
         records.groupBy { it.company }.values.forEach {
-            log("Predicting prices for company ${it[0].company} (${it.size} records)")
+            log("Predicting prices for ${it[0].company} (${it.size} records)")
             Strategy(it).execute()
         }
 
@@ -38,39 +39,39 @@ abstract class Runner(private val inputFile: File) {
                 parts[3].toDouble(),
                 parts[4].toDouble(),
                 parts[5].toDouble(),
-                parts[6].toDoubleOrNull(),
-                parts[7].toDoubleOrNull(),
+                parts[6].toDoubleOrNullIfNaN(),
+                parts[7].toDoubleOrNullIfNaN(),
                 parts[8].toDouble(),
-                parts[9].toDoubleOrNull(),
-                parts[10].toDoubleOrNull(),
-                parts[11].toDoubleOrNull(),
-                parts[12].toDoubleOrNull(),
-                parts[13].toDoubleOrNull(),
+                parts[9].toDoubleOrNullIfNaN(),
+                parts[10].toDoubleOrNullIfNaN(),
+                parts[11].toDoubleOrNullIfNaN(),
+                parts[12].toDoubleOrNullIfNaN(),
+                parts[13].toDoubleOrNullIfNaN(),
                 parts[14].toDouble(),
                 parts[15].toDouble(),
                 parts[16].toDouble(),
                 parts[17].toDouble(),
-                parts[18].toDoubleOrNull(),
-                parts[19].toDoubleOrNull(),
+                parts[18].toDoubleOrNullIfNaN(),
+                parts[19].toDoubleOrNullIfNaN(),
                 parts[20].toDouble(),
-                parts[21].toDoubleOrNull(),
-                parts[22].toDoubleOrNull(),
-                parts[23].toDoubleOrNull(),
-                parts[24].toDoubleOrNull(),
-                parts[25].toDoubleOrNull(),
+                parts[21].toDoubleOrNullIfNaN(),
+                parts[22].toDoubleOrNullIfNaN(),
+                parts[23].toDoubleOrNullIfNaN(),
+                parts[24].toDoubleOrNullIfNaN(),
+                parts[25].toDoubleOrNullIfNaN(),
                 parts[26].toDouble(),
                 parts[27].toDouble(),
-                parts[28].toDoubleOrNull(),
-                parts[29].toDoubleOrNull(),
-                parts[30].toDoubleOrNull(),
-                parts[31].toDoubleOrNull(),
-                parts[32].toDoubleOrNull(),
-                parts[33].toDoubleOrNull(),
-                parts[34].toDoubleOrNull(),
-                parts[35].toDoubleOrNull(),
-                parts[36].toDoubleOrNull(),
-                parts[37].toDoubleOrNull(),
-                parts[38].toDoubleOrNull(),
+                parts[28].toDoubleOrNullIfNaN(),
+                parts[29].toDoubleOrNullIfNaN(),
+                parts[30].toDoubleOrNullIfNaN(),
+                parts[31].toDoubleOrNullIfNaN(),
+                parts[32].toDoubleOrNullIfNaN(),
+                parts[33].toDoubleOrNullIfNaN(),
+                parts[34].toDoubleOrNullIfNaN(),
+                parts[35].toDoubleOrNullIfNaN(),
+                parts[36].toDoubleOrNullIfNaN(),
+                parts[37].toDoubleOrNullIfNaN(),
+                parts[38].toDoubleOrNullIfNaN(),
                 parts[39].toDouble(),
                 parts[40].toDouble(),
                 parts[41].toDouble(),
@@ -80,32 +81,42 @@ abstract class Runner(private val inputFile: File) {
                 parts[45].toDouble(),
                 parts[46].toDouble(),
                 parts[47].toDouble(),
-                parts[48].toDoubleOrNull(),
-                parts[49].toDoubleOrNull(),
+                parts[48].toDoubleOrNullIfNaN(),
+                parts[49].toDoubleOrNullIfNaN(),
                 parts[50].toDouble(),
                 parts[51].toDouble(),
                 parts[52].toDouble(),
-                parts[53].toDoubleOrNull(),
-                parts[54].toDoubleOrNull(),
-                parts[55].toDoubleOrNull(),
-                parts[56].toDoubleOrNull(),
-                parts[57].toDoubleOrNull(),
-                parts[58].toDoubleOrNull(),
-                parts[59].toDoubleOrNull(),
-                parts[60].toDoubleOrNull(),
-                parts[61].toDoubleOrNull(),
-                parts[62].toDoubleOrNull(),
-                parts[63].toDoubleOrNull(),
-                parts[64].toDoubleOrNull(),
-                parts[65].toDoubleOrNull(),
-                parts[66].toDoubleOrNull(),
-                parts[67].toDoubleOrNull(),
-                if (parts.size == 69) parts[68].toDoubleOrNull() else null
+                parts[53].toDoubleOrNullIfNaN(),
+                parts[54].toDoubleOrNullIfNaN(),
+                parts[55].toDoubleOrNullIfNaN(),
+                parts[56].toDoubleOrNullIfNaN(),
+                parts[57].toDoubleOrNullIfNaN(),
+                parts[58].toDoubleOrNullIfNaN(),
+                parts[59].toDoubleOrNullIfNaN(),
+                parts[60].toDoubleOrNullIfNaN(),
+                parts[61].toDoubleOrNullIfNaN(),
+                parts[62].toDoubleOrNullIfNaN(),
+                parts[63].toDoubleOrNullIfNaN(),
+                parts[64].toDoubleOrNullIfNaN(),
+                parts[65].toDoubleOrNullIfNaN(),
+                parts[66].toDoubleOrNullIfNaN(),
+                parts[67].toDoubleOrNullIfNaN(),
+                if (parts.size == 69) parts[68].toDoubleOrNullIfNaN() else null
             )
         }
 
         log("Parsed ${records.size} records")
 
         return records.sortedBy { it.date }
+    }
+
+    private fun String.toDoubleOrNullIfNaN(): Double? {
+        val original = this.toDoubleOrNull()
+
+        if (original != null && isNaN(original)) {
+            return null
+        }
+
+        return original
     }
 }
