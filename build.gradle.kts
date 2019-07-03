@@ -14,6 +14,11 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("reflect"))
+}
+
+application {
+    mainClassName = "${project.group}.MainKt"
 }
 
 var runArgs = listOf("src/main/resources/train.csv")
@@ -29,7 +34,6 @@ tasks {
 
     withType<JavaExec> {
         doFirst {
-            main = "${project.group}.MainKt"
             args = runArgs
         }
     }

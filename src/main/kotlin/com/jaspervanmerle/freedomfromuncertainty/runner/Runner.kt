@@ -7,21 +7,20 @@ import java.io.File
 import java.lang.Double.isNaN
 import java.text.SimpleDateFormat
 
-abstract class Runner(private val inputFile: File) {
-    protected abstract fun processResults(records: List<Record>)
+abstract class Runner {
+    abstract fun run()
 
-    fun run() {
-        val records = parseRecords(inputFile)
+    protected fun runStrategy(strategy: Strategy, records: List<Record>, enableLogging: Boolean) {
+        records.groupBy { it.company }.forEach { (company, companyRecords) ->
+            if (enableLogging) {
+                log("Predicting prices for $company (${companyRecords.size} records)")
+            }
 
-        records.groupBy { it.company }.values.forEach {
-            log("Predicting prices for ${it[0].company} (${it.size} records)")
-            Strategy(it).execute()
+            strategy.execute(companyRecords)
         }
-
-        processResults(records)
     }
 
-    private fun parseRecords(inputFile: File): List<Record> {
+    protected fun parseRecords(inputFile: File): List<Record> {
         val records = mutableListOf<Record>()
 
         inputFile.forEachLine {
