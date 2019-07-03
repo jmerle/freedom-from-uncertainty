@@ -7,9 +7,6 @@ import java.text.DecimalFormat
 
 class ProductionRunner(inputFile: File, private val outputFile: File) : Runner(inputFile) {
     override fun processResults(records: List<Record>) {
-        outputFile.parentFile.mkdirs()
-        outputFile.createNewFile()
-
         outputFile.printWriter().use { out ->
             out.println("ID,Price")
 

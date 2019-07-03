@@ -7,7 +7,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 
 abstract class Runner(private val inputFile: File) {
-    abstract fun processResults(records: List<Record>)
+    protected abstract fun processResults(records: List<Record>)
 
     fun run() {
         val records = parseRecords(inputFile)
