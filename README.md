@@ -4,7 +4,7 @@ My solution for the [Freedom from Uncertainty](https://www.hackerearth.com/chall
 ## Approach
 To predict the price of a record (a row in the dataset), I used Python to find correlations between all variables and the target (the price). I used a simple regression model to generate the coefficients of all correlating variables, which I then converted into Kotlin code which runs the model against the test dataset.
 
-Besides the existing features, I also added additional features for the future values of all feature columns to see if there is a correlation between the price and a future value. To explain this better, imagine the following dataset:
+Besides the existing features, I also added additional features for the previous and future values of all feature columns to see if there is a correlation between the price and a previous or future value. To explain this better, imagine the following dataset:
 
 | ID | SMA |
 |----|-----|
@@ -16,13 +16,13 @@ Besides the existing features, I also added additional features for the future v
 
 My approach would add additional features to this dataset like this:
 
-| ID | SMA | SMA_1 | SMA_2 | SMA_3 |
-|----|-----|-------|-------|-------|
-| 1  | 3   | 4     | 5     | 6     |
-| 2  | 4   | 5     | 6     | 7     |
-| 3  | 5   | 6     | 7     | NaN   |
-| 4  | 6   | 7     | NaN   | NaN   |
-| 5  | 7   | NaN   | NaN   | NaN   |
+| ID | SMA | SMA_-3 | SMA_-2 | SMA_-1 | SMA_1 | SMA_2 | SMA_3 |
+|----|-----|--------|--------|--------|-------|-------|-------|
+| 1  | 3   | NaN    | NaN    | NaN    | 4     | 5     | 6     |
+| 2  | 4   | NaN    | NaN    | 3      | 5     | 6     | 7     |
+| 3  | 5   | NaN    | 3      | 4      | 6     | 7     | NaN   |
+| 4  | 6   | 3      | 4      | 5      | 7     | NaN   | NaN   |
+| 5  | 7   | 4      | 5      | 6      | NaN   | NaN   | NaN   |
 
 When there are not enough future records to apply the model (note the `NaN` cells), my strategy falls back on the TEMA of the record.
 
