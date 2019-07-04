@@ -21,9 +21,16 @@ abstract class Runner {
 
     protected fun parseRecords(inputFile: File): List<Record> {
         val records = mutableListOf<Record>()
+        var recordCount = 0
 
         inputFile.forEachLine {
-            if (it.startsWith("ID") || it.contains("NaN")) {
+            if (it.startsWith("ID")) {
+                return@forEachLine
+            }
+
+            recordCount++
+
+            if (it.contains("NaN")) {
                 return@forEachLine
             }
 
@@ -103,7 +110,7 @@ abstract class Runner {
             )
         }
 
-        log("Parsed ${records.size} records")
+        log("Found $recordCount records (skipped ${recordCount - records.size})")
 
         return records.sortedBy { it.date }
     }
