@@ -4,7 +4,6 @@ import com.jaspervanmerle.freedomfromuncertainty.io.log
 import com.jaspervanmerle.freedomfromuncertainty.model.Record
 import com.jaspervanmerle.freedomfromuncertainty.strategy.Strategy
 import java.io.File
-import java.lang.Double.isNaN
 import java.text.SimpleDateFormat
 
 abstract class Runner {
@@ -24,7 +23,7 @@ abstract class Runner {
         val records = mutableListOf<Record>()
 
         inputFile.forEachLine {
-            if (it.startsWith("ID")) {
+            if (it.startsWith("ID") || it.contains("NaN")) {
                 return@forEachLine
             }
 
@@ -38,39 +37,39 @@ abstract class Runner {
                 parts[3].toDouble(),
                 parts[4].toDouble(),
                 parts[5].toDouble(),
-                parts[6].toDoubleOrNullIfNaN(),
-                parts[7].toDoubleOrNullIfNaN(),
+                parts[6].toDouble(),
+                parts[7].toDouble(),
                 parts[8].toDouble(),
-                parts[9].toDoubleOrNullIfNaN(),
-                parts[10].toDoubleOrNullIfNaN(),
-                parts[11].toDoubleOrNullIfNaN(),
-                parts[12].toDoubleOrNullIfNaN(),
-                parts[13].toDoubleOrNullIfNaN(),
+                parts[9].toDouble(),
+                parts[10].toDouble(),
+                parts[11].toDouble(),
+                parts[12].toDouble(),
+                parts[13].toDouble(),
                 parts[14].toDouble(),
                 parts[15].toDouble(),
                 parts[16].toDouble(),
                 parts[17].toDouble(),
-                parts[18].toDoubleOrNullIfNaN(),
-                parts[19].toDoubleOrNullIfNaN(),
+                parts[18].toDouble(),
+                parts[19].toDouble(),
                 parts[20].toDouble(),
-                parts[21].toDoubleOrNullIfNaN(),
-                parts[22].toDoubleOrNullIfNaN(),
-                parts[23].toDoubleOrNullIfNaN(),
-                parts[24].toDoubleOrNullIfNaN(),
-                parts[25].toDoubleOrNullIfNaN(),
+                parts[21].toDouble(),
+                parts[22].toDouble(),
+                parts[23].toDouble(),
+                parts[24].toDouble(),
+                parts[25].toDouble(),
                 parts[26].toDouble(),
                 parts[27].toDouble(),
-                parts[28].toDoubleOrNullIfNaN(),
-                parts[29].toDoubleOrNullIfNaN(),
-                parts[30].toDoubleOrNullIfNaN(),
-                parts[31].toDoubleOrNullIfNaN(),
-                parts[32].toDoubleOrNullIfNaN(),
-                parts[33].toDoubleOrNullIfNaN(),
-                parts[34].toDoubleOrNullIfNaN(),
-                parts[35].toDoubleOrNullIfNaN(),
-                parts[36].toDoubleOrNullIfNaN(),
-                parts[37].toDoubleOrNullIfNaN(),
-                parts[38].toDoubleOrNullIfNaN(),
+                parts[28].toDouble(),
+                parts[29].toDouble(),
+                parts[30].toDouble(),
+                parts[31].toDouble(),
+                parts[32].toDouble(),
+                parts[33].toDouble(),
+                parts[34].toDouble(),
+                parts[35].toDouble(),
+                parts[36].toDouble(),
+                parts[37].toDouble(),
+                parts[38].toDouble(),
                 parts[39].toDouble(),
                 parts[40].toDouble(),
                 parts[41].toDouble(),
@@ -80,42 +79,32 @@ abstract class Runner {
                 parts[45].toDouble(),
                 parts[46].toDouble(),
                 parts[47].toDouble(),
-                parts[48].toDoubleOrNullIfNaN(),
-                parts[49].toDoubleOrNullIfNaN(),
+                parts[48].toDouble(),
+                parts[49].toDouble(),
                 parts[50].toDouble(),
                 parts[51].toDouble(),
                 parts[52].toDouble(),
-                parts[53].toDoubleOrNullIfNaN(),
-                parts[54].toDoubleOrNullIfNaN(),
-                parts[55].toDoubleOrNullIfNaN(),
-                parts[56].toDoubleOrNullIfNaN(),
-                parts[57].toDoubleOrNullIfNaN(),
-                parts[58].toDoubleOrNullIfNaN(),
-                parts[59].toDoubleOrNullIfNaN(),
-                parts[60].toDoubleOrNullIfNaN(),
-                parts[61].toDoubleOrNullIfNaN(),
-                parts[62].toDoubleOrNullIfNaN(),
-                parts[63].toDoubleOrNullIfNaN(),
-                parts[64].toDoubleOrNullIfNaN(),
-                parts[65].toDoubleOrNullIfNaN(),
-                parts[66].toDoubleOrNullIfNaN(),
-                parts[67].toDoubleOrNullIfNaN(),
-                if (parts.size == 69) parts[68].toDoubleOrNullIfNaN() else null
+                parts[53].toDouble(),
+                parts[54].toDouble(),
+                parts[55].toDouble(),
+                parts[56].toDouble(),
+                parts[57].toDouble(),
+                parts[58].toDouble(),
+                parts[59].toDouble(),
+                parts[60].toDouble(),
+                parts[61].toDouble(),
+                parts[62].toDouble(),
+                parts[63].toDouble(),
+                parts[64].toDouble(),
+                parts[65].toDouble(),
+                parts[66].toDouble(),
+                parts[67].toDouble(),
+                if (parts.size == 69) parts[68].toDouble() else null
             )
         }
 
         log("Parsed ${records.size} records")
 
         return records.sortedBy { it.date }
-    }
-
-    private fun String.toDoubleOrNullIfNaN(): Double? {
-        val original = this.toDoubleOrNull()
-
-        if (original != null && isNaN(original)) {
-            return null
-        }
-
-        return original
     }
 }
