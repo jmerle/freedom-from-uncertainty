@@ -4,7 +4,7 @@ My solution for the [Freedom from Uncertainty](https://www.hackerearth.com/chall
 ## Approach
 To predict the price of a record (a row in the dataset), I used Python to find correlations between all variables and the target (the price). I used a simple regression model to generate the coefficients of all correlating variables, which I then converted into Kotlin code which runs the model against the test dataset.
 
-Besides the existing features, I also added additional features for the future and past values of all feature columns to see if there is a correlation between the price and a future and/or past value. To explain this better, imagine the following dataset:
+Besides the existing features, I also added additional features for the future values of all feature columns to see if there is a correlation between the price and a future value. To explain this better, imagine the following dataset:
 
 | ID | SMA |
 |----|-----|
@@ -24,7 +24,7 @@ My approach would add additional features to this dataset like this:
 | 4  | 6   | 7     | NaN   | NaN   |
 | 5  | 7   | NaN   | NaN   | NaN   |
 
-When there are not enough future and/or past records to apply the model (note the `NaN` cells), my strategy falls back on the TEMA of the record.
+When there are not enough future records to apply the model (note the `NaN` cells), my strategy falls back on the TEMA of the record.
 
 ## Tools
 I wrote my solution in Kotlin. I also used Python to find correlations between variables and to generate Kotlin code based on the correlations that were found. Initially I also did a bit of trial-and-error in RapidMiner Studio, but that took too me long to get used to again so I switched over to Kotlin and Python.
